@@ -490,7 +490,6 @@ public void setProperties(Properties properties) {
 setPropertiesArray(new Properties[] {properties});
 }
 
-
 public void setPropertiesArray(Properties... propertiesArray) {
 	this.propertiesArray = propertiesArray;
 	super.setPropertiesArray(propertiesArray);
