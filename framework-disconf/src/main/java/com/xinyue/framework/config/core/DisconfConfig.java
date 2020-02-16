@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,14 +30,11 @@ public class DisconfConfig{
         return new DisconfMgrBeanSecond();
     }
 	
-    private ReloadablePropertiesFactoryBean aaa;
-
     
 
     @Bean(name = "reloadablePropertiesFactoryBean")
     @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
     public ReloadablePropertiesFactoryBean reloadablePropertiesFactoryBean() {
-    	System.out.println("222222222222222222222222");
     	ReloadablePropertiesFactoryBean propertiesFactoryBean = new ReloadablePropertiesFactoryBean();
         propertiesFactoryBean.setSingleton(true);
         // disconf 配置文件 (这里只有application.properties)
@@ -53,7 +49,6 @@ public class DisconfConfig{
     	FwReloadingPropertyPlaceholderConfigurer fwReloadingPropertyPlaceholderConfigurer = new FwReloadingPropertyPlaceholderConfigurer();
     	fwReloadingPropertyPlaceholderConfigurer.setIgnoreResourceNotFound(true);
     	fwReloadingPropertyPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
-    	System.out.println("1111111111111111111111111111111111111");
     	 try {
              Properties properties = reloadablePropertiesFactoryBean.getObject();
              fwReloadingPropertyPlaceholderConfigurer.setProperties(properties);

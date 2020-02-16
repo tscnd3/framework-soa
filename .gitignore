@@ -1,0 +1,14 @@
+/framework-lts/.project
+/framework-parent/.classpath
+/framework-utils/target
+/framework-utils/.classpath
+/framework-utils/.project
+/.project
+/.settings
+/framework-disconf/.settings
+target
+/framework-disconf/.classpath
+/framework-disconf/.project
+.settings
+/framework-lts/.classpath
+/framework-parent/.project

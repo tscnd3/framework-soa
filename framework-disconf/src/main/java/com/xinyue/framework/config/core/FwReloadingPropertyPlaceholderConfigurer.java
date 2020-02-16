@@ -491,9 +491,9 @@ setPropertiesArray(new Properties[] {properties});
 }
 
 
-public void setPropertiesArray(Properties[] propertiesArray) {
-this.propertiesArray = propertiesArray;
-super.setPropertiesArray(propertiesArray);
+public void setPropertiesArray(Properties... propertiesArray) {
+	this.propertiesArray = propertiesArray;
+	super.setPropertiesArray(propertiesArray);
 }
 
 public void setPlaceholderPrefix(String placeholderPrefix) {
