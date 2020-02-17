@@ -1,10 +1,13 @@
 package com.xinyue.framework.config.core;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +43,28 @@ public class DisconfConfig{
         // disconf 配置文件 (这里只有application.properties)
         List<String> fileNames = new ArrayList<>();
         fileNames.add("classpath:application.properties");
+        
+        //从配置文件加载其他要管理的 properties文件
+        Properties prop=new Properties();
+        try {
+			prop.load(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("application.properties"), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        String  propNames=prop.get("prop.names")!=null?(StringUtils.isNotBlank(prop.get("prop.names").toString())
+        		?prop.get("prop.names").toString():null):null;
+        if(StringUtils.isNotBlank(propNames)){
+        	String[] propNameArray=propNames.split(",");
+        	for (int i = 0; i < propNameArray.length; i++) {
+        		String fileTyle=propNameArray[i].substring(propNameArray[i].lastIndexOf("."),propNameArray[i].length());
+        		if(".properties".equals(fileTyle)){
+        			fileNames.add("classpath:"+propNameArray[i]);
+        		}
+			}
+        }		
+        //====================================================
         propertiesFactoryBean.setLocations(fileNames);
         return propertiesFactoryBean;
     }
