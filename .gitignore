@@ -12,3 +12,13 @@ target
 .settings
 /framework-lts/.classpath
 /framework-parent/.project
+/framework-disconf/*
+/framework-disconf/*.classpath
+/framework-disconf/*.gitignore
+/framework-disconf/*.project
+/framework-kafka/*.project
+/framework-kafka/*.classpath
+/framework-redis/*.project
+/framework-redis/*.classpath
+/*.project
+/*
