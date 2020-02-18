@@ -1,11 +1,11 @@
-package com.xinyue.framework.config.core;
+package com.xinyue.framework.disconf.config.core;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 import com.baidu.disconf.client.DisconfMgrBean;
 import com.baidu.disconf.client.config.DisClientConfig;
-import com.xinyue.framework.config.constant.EnvConfigurer;
+import com.xinyue.framework.disconf.config.constant.EnvConfigurer;
 
 
 public class ExtendedDisconfMgrBean extends DisconfMgrBean {

@@ -1,4 +1,4 @@
-package com.xinyue.framework.config.core;
+package com.xinyue.framework.disconf.config.core;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,7 +16,7 @@ import org.springframework.core.Ordered;
 import com.baidu.disconf.client.DisconfMgrBean;
 import com.baidu.disconf.client.DisconfMgrBeanSecond;
 import com.baidu.disconf.client.addons.properties.ReloadablePropertiesFactoryBean;
-import com.xinyue.framework.config.constant.DisconfConstant;
+import com.xinyue.framework.disconf.config.constant.DisconfConstant;
 @Configuration
 public class DisconfConfig{
 	

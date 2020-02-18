@@ -1,4 +1,4 @@
-package com.xinyue.framework.util;
+package com.xinyue.framework.disconf.util;
 
 import com.baidu.disconf.client.usertools.DisconfDataGetter;
 

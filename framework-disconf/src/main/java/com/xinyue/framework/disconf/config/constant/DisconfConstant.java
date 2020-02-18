@@ -6,7 +6,7 @@
  * @author: Zhihao Peng   
  * @date: 2019年5月8日 上午1:48:28 
  */
-package com.xinyue.framework.config.constant;
+package com.xinyue.framework.disconf.config.constant;
 
 /**    
 * @ClassName: DisconfConstant.java

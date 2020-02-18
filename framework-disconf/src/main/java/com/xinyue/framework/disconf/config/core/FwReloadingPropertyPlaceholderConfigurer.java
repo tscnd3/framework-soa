@@ -1,4 +1,4 @@
-package com.xinyue.framework.config.core;
+package com.xinyue.framework.disconf.config.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;

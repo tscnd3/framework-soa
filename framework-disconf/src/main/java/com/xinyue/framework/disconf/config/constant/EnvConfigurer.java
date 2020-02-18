@@ -1,4 +1,4 @@
-package com.xinyue.framework.config.constant;
+package com.xinyue.framework.disconf.config.constant;
 
 public class EnvConfigurer {
 

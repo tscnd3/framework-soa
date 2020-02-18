@@ -9,5 +9,7 @@
   	<module>framework-utils</module>
   	<module>framework-lts</module>
   	<module>framework-disconf</module>
+  	<module>framework-kafka</module>
+  	<module>framework-redis</module>
   </modules>
 </project>
