@@ -21,4 +21,5 @@ target
 /framework-redis/*.project
 /framework-redis/*.classpath
 /*.project
-/*
+.classpath
+.project
