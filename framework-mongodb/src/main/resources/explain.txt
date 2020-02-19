@@ -1,0 +1,5 @@
+#mongo \u7b80\u5355\u914d\u7f6e
+spring.data.mongodb.uri=mongodb://im_red_bu:503503@172.10.4.58:27017/imredpacket_bu
+
+#\u591a\u4e2a IP \u96c6\u7fa4\u53ef\u4ee5\u91c7\u7528\u4ee5\u4e0b\u914d\u7f6e\uff1a
+spring.data.mongodb.uri=mongodb://user:pwd@ip1:port1,ip2:port2/database
