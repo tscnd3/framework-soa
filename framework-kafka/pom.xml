@@ -6,4 +6,13 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>framework-kafka</artifactId>
+<packaging>jar</packaging>
+  
+  <dependencies>
+  		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+  </dependencies>
+  
 </project>
