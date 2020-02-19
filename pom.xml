@@ -11,5 +11,7 @@
   	<module>framework-disconf</module>
   	<module>framework-kafka</module>
   	<module>framework-redis</module>
+  	<module>framework-mongodb</module>
+  	<module>framework-rabbitmq</module>
   </modules>
 </project>
