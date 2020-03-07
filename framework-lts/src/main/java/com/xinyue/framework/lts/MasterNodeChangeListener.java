@@ -1,4 +1,4 @@
-package com.xinyue.framework;
+package com.xinyue.framework.lts;
 
 import com.github.ltsopensource.core.cluster.Node;
 import com.github.ltsopensource.core.commons.utils.StringUtils;

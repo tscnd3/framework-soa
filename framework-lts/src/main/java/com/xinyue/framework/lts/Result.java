@@ -1,4 +1,4 @@
-package com.xinyue.framework;
+package com.xinyue.framework.lts;
 
 
 public class Result {

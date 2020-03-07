@@ -1,4 +1,4 @@
-package com.xinyue.framework;
+package com.xinyue.framework.lts;
 
 import java.lang.reflect.Method;
 import java.util.Map;
