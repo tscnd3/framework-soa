@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-<!-- 	<parent> -->
-<!-- 		<groupId>org.springframework.boot</groupId> -->
-<!--     	<artifactId>spring-boot-starter-parent</artifactId> -->
-<!--     	<version>2.1.5.RELEASE</version> -->
-<!-- 	</parent> -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+    	<artifactId>spring-boot-starter-parent</artifactId>
+    	<version>2.1.5.RELEASE</version>
+	</parent>
 	<groupId>com.xinyue</groupId>
 	<artifactId>framework-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -14,18 +14,18 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<druid.version>1.1.8</druid.version>
-		<org.springframework.boot>2.1.5.RELEASE</org.springframework.boot>
+<!-- 		<org.springframework.boot>2.1.5.RELEASE</org.springframework.boot> -->
 	</properties>	
 	<!-- Spring Boot 依赖 -->
 	<dependencyManagement>
 		<dependencies>
-		   <dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${org.springframework.boot}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
+<!-- 		   <dependency> -->
+<!-- 				<groupId>org.springframework.boot</groupId> -->
+<!-- 				<artifactId>spring-boot-dependencies</artifactId> -->
+<!-- 				<version>${org.springframework.boot}</version> -->
+<!-- 				<type>pom</type> -->
+<!-- 				<scope>import</scope> -->
+<!-- 			</dependency> -->
 			<dependency>
 	            <groupId>com.alibaba</groupId>
 	            <artifactId>druid</artifactId>
@@ -35,18 +35,18 @@
     </dependencyManagement>
 
 <!-- deploy 上传jar到私服 -->
-<!-- <distributionManagement> -->
-<!-- 	<repository> -->
-<!--             <id>releases</id> -->
-<!--             <name>corp nexus-releases</name> -->
-<!--             <url>http://192.168.60.125:8081/repository/maven-releases/</url> -->
-<!--         </repository> -->
-<!--         <snapshotRepository> -->
-<!--             <id>snapshots</id> -->
-<!--             <name>corp nexus-snapshot</name> -->
-<!--             <url>http://192.168.60.125:8081/repository/maven-snapshots/</url> -->
-<!--         </snapshotRepository> -->
-<!-- </distributionManagement> -->
+<distributionManagement>
+	<repository>
+            <id>releases</id>
+            <name>corp nexus-releases</name>
+            <url>http://192.168.60.125:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>corp nexus-snapshot</name>
+            <url>http://192.168.60.125:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+</distributionManagement>
 
 <build> 
         <plugins>

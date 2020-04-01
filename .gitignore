@@ -23,3 +23,14 @@ target
 /*.project
 .classpath
 .project
+/framework-mongodb/*.project
+/framework-mongodb/*.classpath
+/framework-parent/*.project
+/framework-parent/*
+/framework-parent/*.classpath
+/framework-utils/*.classpath
+/framework-utils/*.gitignore
+/framework-utils/*.project
+/framework-utils/*
+/*
+/*.gitignore
