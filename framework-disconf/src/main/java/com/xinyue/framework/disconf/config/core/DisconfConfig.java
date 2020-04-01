@@ -42,28 +42,29 @@ public class DisconfConfig{
         propertiesFactoryBean.setSingleton(true);
         // disconf 配置文件 (这里只有application.properties)
         List<String> fileNames = new ArrayList<>();
-        fileNames.add("classpath:application.properties");
+        String path="classpath:application.properties";
+        fileNames.add(path);
         
         //从配置文件加载其他要管理的 properties文件
-        Properties prop=new Properties();
-        try {
-			prop.load(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("application.properties"), "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        String  propNames=prop.get("prop.names")!=null?(StringUtils.isNotBlank(prop.get("prop.names").toString())
-        		?prop.get("prop.names").toString():null):null;
-        if(StringUtils.isNotBlank(propNames)){
-        	String[] propNameArray=propNames.split(",");
-        	for (int i = 0; i < propNameArray.length; i++) {
-        		String fileTyle=propNameArray[i].substring(propNameArray[i].lastIndexOf("."),propNameArray[i].length());
-        		if(".properties".equals(fileTyle)){
-        			fileNames.add("classpath:"+propNameArray[i]);
-        		}
-			}
-        }		
+//        Properties prop=new Properties();
+//        try {
+//			prop.load(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(path), "UTF-8"));
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//        String  propNames=prop.get("prop.names")!=null?(StringUtils.isNotBlank(prop.get("prop.names").toString())
+//        		?prop.get("prop.names").toString():null):null;
+//        if(StringUtils.isNotBlank(propNames)){
+//        	String[] propNameArray=propNames.split(",");
+//        	for (int i = 0; i < propNameArray.length; i++) {
+//        		String fileTyle=propNameArray[i].substring(propNameArray[i].lastIndexOf("."),propNameArray[i].length());
+//        		if(".properties".equals(fileTyle)){
+//        			fileNames.add("classpath:"+propNameArray[i]);
+//        		}
+//			}
+//        }		
         //====================================================
         propertiesFactoryBean.setLocations(fileNames);
         return propertiesFactoryBean;
