@@ -34,3 +34,4 @@ target
 /framework-utils/*
 /*
 /*.gitignore
+/framework-disconf/target/maven-archiver/pom.properties
