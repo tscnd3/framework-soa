@@ -44,7 +44,7 @@ public class DisconfConfig{
         List<String> fileNames = new ArrayList<>();
         String path="classpath:application.properties";
         fileNames.add(path);
-        String disconfPath="classpath:disconf.properties";
+        String disconfPath="disconf.properties";
         //从配置文件加载其他要管理的 properties文件
         Properties prop=new Properties();
         try {
