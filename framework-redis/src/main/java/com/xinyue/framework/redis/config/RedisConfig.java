@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.xinyue.framework.redis.util.RedisUtil;
 
@@ -60,7 +61,9 @@ public class RedisConfig {
 
 	@Value("${spring.redis.port}")
 	private Integer port;
-
+	
+	@Value("${redis.database}")
+	private Integer database;
 
 	/**
 	 * JedisPoolConfig 连接池
@@ -96,20 +99,19 @@ public class RedisConfig {
 	/**
 	 * 配置工厂
 	 */
-	@SuppressWarnings("deprecation")
 	@Bean
 	public JedisConnectionFactory JedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {
 		JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
+		jedisConnectionFactory.getStandaloneConfiguration().setDatabase(database);
 		/*
 		  *    设置密码，如果为空，则不设置
 		  *  可在 redis.conf 文件中设置: requirepass 密码
 		 */
-		
-		if (redispwd == null || redispwd.length() == 0) {
-			jedisConnectionFactory.setPassword(redispwd);
+		if (!StringUtils.isEmpty(redispwd)) {
+			jedisConnectionFactory.getStandaloneConfiguration().setPassword(redispwd);
 		}
-		jedisConnectionFactory.setHostName(host);
-		jedisConnectionFactory.setPort(port);
+		jedisConnectionFactory.getStandaloneConfiguration().setHostName(host);
+		jedisConnectionFactory.getStandaloneConfiguration().setPort(port);
 		return jedisConnectionFactory;
 	}
 
