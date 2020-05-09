@@ -1,15 +1,21 @@
 package com.xinyue.framework.redis.config;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisNode;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import org.springframework.util.Assert;
 
 import com.xinyue.framework.redis.util.RedisUtil;
 
@@ -44,26 +50,35 @@ public class RedisConfig {
 	@Value("${redis.timeBetweenEvictionRunsMillis}")
 	private long timeBetweenEvictionRunsMillis;
 
-//	@Value("${redis.testOnBorrow}")
-//	private boolean testOnBorrow;
-//
-//	@Value("${redis.testWhileIdle")
-//	private boolean testWhileIdle;
+	@Value("${redis.testOnBorrow:false}")
+	private boolean testOnBorrow;
+	
+	@Value("${redis.testWhileIdle:false")
+	private boolean testWhileIdle;
 
-	@Value("${redis.cluster.max-redirects}")
-	private Integer mmaxRedirectsac;
-
-	@Value("${redis.password}")
+	@Value("${redis.password:}")
 	private String redispwd;
 
-	@Value("${spring.redis.host}")
+	@Value("${redis.host}")
 	private String host;
 
-	@Value("${spring.redis.port}")
+	@Value("${redis.port}")
 	private Integer port;
 	
-	@Value("${redis.database}")
+	@Value("${redis.database:0}")
 	private Integer database;
+	
+	@Value("${redis.cluster.nodes}")
+    private String nodes;
+	
+	
+	/**
+	 *  集群模式下，集群最大转发的数量
+	 */
+	@Value("${redis.cluster.max-redirects:3}")
+	private Integer maxRedirects;
+	
+	
 
 	/**
 	 * JedisPoolConfig 连接池
@@ -87,9 +102,9 @@ public class RedisConfig {
 		jedisPoolConfig.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
 		jedisPoolConfig.setBlockWhenExhausted(true);
 		// 是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
-//		jedisPoolConfig.setTestOnBorrow(testOnBorrow);
+		jedisPoolConfig.setTestOnBorrow(testOnBorrow);
 		// 在空闲时检查有效性, 默认false
-//		jedisPoolConfig.setTestWhileIdle(testWhileIdle);
+		jedisPoolConfig.setTestWhileIdle(testWhileIdle);
 		return jedisPoolConfig;
 	}
 
@@ -101,17 +116,42 @@ public class RedisConfig {
 	 */
 	@Bean
 	public JedisConnectionFactory JedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {
-		JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
-		jedisConnectionFactory.getStandaloneConfiguration().setDatabase(database);
-		/*
-		  *    设置密码，如果为空，则不设置
-		  *  可在 redis.conf 文件中设置: requirepass 密码
-		 */
-		if (!StringUtils.isEmpty(redispwd)) {
+		JedisConnectionFactory jedisConnectionFactory=null;
+		if(nodes!=null&&nodes.length()>0){
+			//加正则校验格式
+			if(nodes.split(",").length>1){
+				  RedisClusterConfiguration config = new RedisClusterConfiguration();
+				  String[] sub = nodes.split(",");
+		            List<RedisNode> nodeList = new ArrayList<>(sub.length);
+		            String[] tmp;
+		            for (String s : sub) {
+		                tmp = s.split(":");
+		                // fixme 先不考虑异常配置的case
+		                nodeList.add(new RedisNode(tmp[0], Integer.valueOf(tmp[1])));
+		            }
+		            config.setClusterNodes(nodeList);
+		            config.setMaxRedirects(maxRedirects);
+		            config.setPassword(RedisPassword.of(redispwd));
+		            jedisConnectionFactory = new JedisConnectionFactory(config, jedisPoolConfig);
+		            jedisConnectionFactory.afterPropertiesSet();
+			}else{
+				host=nodes.split(":")[0];
+				port=Integer.valueOf(nodes.split(":")[1]);
+				jedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
+				jedisConnectionFactory.getStandaloneConfiguration().setDatabase(database);
+				jedisConnectionFactory.getStandaloneConfiguration().setPassword(redispwd);
+				jedisConnectionFactory.getStandaloneConfiguration().setHostName(host);
+				jedisConnectionFactory.getStandaloneConfiguration().setPort(port);
+			}
+		}else{
+			Assert.isTrue(host==null||host.length()==0||port==null, "ip地址或端口不能为null");
+			jedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
+			jedisConnectionFactory.getStandaloneConfiguration().setDatabase(database);
 			jedisConnectionFactory.getStandaloneConfiguration().setPassword(redispwd);
+			jedisConnectionFactory.getStandaloneConfiguration().setHostName(host);
+			jedisConnectionFactory.getStandaloneConfiguration().setPort(port);
 		}
-		jedisConnectionFactory.getStandaloneConfiguration().setHostName(host);
-		jedisConnectionFactory.getStandaloneConfiguration().setPort(port);
+		
 		return jedisConnectionFactory;
 	}
 
