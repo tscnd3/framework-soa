@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisNode;
@@ -56,22 +53,22 @@ public class RedisConfig {
 	@Value("${redis.testOnBorrow:false}")
 	private boolean testOnBorrow;
 	
-	@Value("${redis.testWhileIdle:false")
+	@Value("${redis.testWhileIdle:false}")
 	private boolean testWhileIdle;
 
-	@Value("${redis.password:}")
+	@Value("${redis.password:#{null}}")
 	private String redispwd;
 
-	@Value("${redis.host}")
+	@Value("${redis.host:127.0.0.1}")
 	private String host;
 
-	@Value("${redis.port}")
+	@Value("${redis.port:6379}")
 	private Integer port;
 	
 	@Value("${redis.database:0}")
 	private Integer database;
 	
-	@Value("${redis.cluster.nodes}")
+	@Value("${redis.cluster.nodes:#{null}}")
     private String nodes;
 	
 	
@@ -147,7 +144,7 @@ public class RedisConfig {
 				jedisConnectionFactory.getStandaloneConfiguration().setPort(port);
 			}
 		}else{
-			Assert.isTrue(host==null||host.length()==0||port==null, "ip地址或端口不能为null");
+			Assert.isTrue(host!=null && host.length()>0 && port!=null, "ip地址或端口不能为null");
 			jedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
 			jedisConnectionFactory.getStandaloneConfiguration().setDatabase(database);
 			jedisConnectionFactory.getStandaloneConfiguration().setPassword(redispwd);
