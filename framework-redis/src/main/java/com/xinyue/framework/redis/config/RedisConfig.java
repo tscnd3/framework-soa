@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisNode;
@@ -14,7 +18,6 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.xinyue.framework.redis.util.RedisUtil;
@@ -29,7 +32,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author pancm
  * @date 2018年6月7日
  */
-@Component
+@Configuration
 public class RedisConfig {
 
 	@Value("${redis.maxIdle}")

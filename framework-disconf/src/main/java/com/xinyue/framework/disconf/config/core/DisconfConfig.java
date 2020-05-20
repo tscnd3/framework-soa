@@ -17,6 +17,7 @@ import com.baidu.disconf.client.DisconfMgrBean;
 import com.baidu.disconf.client.DisconfMgrBeanSecond;
 import com.baidu.disconf.client.addons.properties.ReloadablePropertiesFactoryBean;
 import com.xinyue.framework.disconf.config.constant.DisconfConstant;
+
 @Configuration
 public class DisconfConfig{
 	
