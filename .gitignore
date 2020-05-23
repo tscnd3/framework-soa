@@ -2,5 +2,5 @@
 /**/*.project
 /**/*.gitignore
 **/target/
-**/.settings/
+/**/.settings/
 
