@@ -1,6 +1,5 @@
 *.classpath
-*.project
-
-#注释排除所有target目录的文件    
+*.project 
 **/target/
 **/.settings/
+/*.project
