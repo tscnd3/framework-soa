@@ -23,6 +23,12 @@ public class RedisUtil {
 	public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
 		this.redisTemplate = redisTemplate;
 	}
+	
+	public RedisTemplate<String, Object> getRedisTemplate() {
+		return redisTemplate;
+	}
+	
+	
 
 	// =============================common============================
 	/**
@@ -308,6 +314,17 @@ public class RedisUtil {
 	public double hdecr(String key, String item, double by) {
 		return redisTemplate.opsForHash().increment(key, item, -by);
 	}
+	
+	/**
+	 * hash字段数量
+	 * @param key 键
+	 * @return
+	 */
+	public long hlen(String key) {
+		return redisTemplate.opsForHash().size(key);
+	}
+	
+	
 
 	// ============================set=============================
 	/**
@@ -569,5 +586,9 @@ public class RedisUtil {
 			return 0;
 		}
 	}
+
+	
+	
+	
 
 }
