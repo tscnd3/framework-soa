@@ -8,10 +8,13 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.Environment;
 
 import com.baidu.disconf.client.DisconfMgrBean;
 import com.baidu.disconf.client.DisconfMgrBeanSecond;
@@ -19,14 +22,14 @@ import com.baidu.disconf.client.addons.properties.ReloadablePropertiesFactoryBea
 import com.xinyue.framework.disconf.config.constant.DisconfConstant;
 
 @Configuration
-public class DisconfConfig{
+public class DisconfConfig implements EnvironmentAware {
 	
     @Bean(destroyMethod = "destroy")
     public DisconfMgrBean disconfMgrBean(){
-    	ExtendedDisconfMgrBean extendedDisconfMgrBean = new ExtendedDisconfMgrBean();
+    	DisconfMgrBean disconfMgrBean = new DisconfMgrBean();
         //extendedDisconfMgrBean.setScanPackage("no_used");
-    	extendedDisconfMgrBean.setScanPackage(DisconfConstant.DEFAULT_CORE_SCAN_PACKAGE);
-        return extendedDisconfMgrBean;
+    	disconfMgrBean.setScanPackage(DisconfConstant.DEFAULT_CORE_SCAN_PACKAGE);
+        return disconfMgrBean;
     }
 
     @Bean(initMethod = "init", destroyMethod = "destroy")
@@ -71,33 +74,32 @@ public class DisconfConfig{
         return propertiesFactoryBean;
     }
 
-    @Bean(name = "fwReloadingPropertyPlaceholderConfigurer")
-    public FwReloadingPropertyPlaceholderConfigurer fwReloadingPropertyPlaceholderConfigurer(ReloadablePropertiesFactoryBean reloadablePropertiesFactoryBean) throws IOException{
-    	FwReloadingPropertyPlaceholderConfigurer fwReloadingPropertyPlaceholderConfigurer = new FwReloadingPropertyPlaceholderConfigurer();
-    	fwReloadingPropertyPlaceholderConfigurer.setIgnoreResourceNotFound(true);
-    	fwReloadingPropertyPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
-    	 try {
-             Properties properties = reloadablePropertiesFactoryBean.getObject();
-             fwReloadingPropertyPlaceholderConfigurer.setProperties(properties);
-         } catch (IOException e) {
-             throw new RuntimeException("unable to find properties", e);
-         }
-        return fwReloadingPropertyPlaceholderConfigurer;
+
+    @Bean(name = "propertyPlaceholderConfigurer")
+    public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer(ReloadablePropertiesFactoryBean reloadablePropertiesFactoryBean){
+        PropertyPlaceholderConfigurer placeholderConfigurer = new PropertyPlaceholderConfigurer();
+        placeholderConfigurer.setIgnoreResourceNotFound(true);
+        placeholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
+        try {
+            Properties properties = reloadablePropertiesFactoryBean.getObject();
+            placeholderConfigurer.setProperties(properties);
+        } catch (IOException e) {
+            throw new RuntimeException("unable to find properties", e);
+        }
+        return placeholderConfigurer;
     }
     
-//    @Bean(name = "propertyPlaceholderConfigurer")
-//    public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer(ReloadablePropertiesFactoryBean reloadablePropertiesFactoryBean) {
-//        PropertyPlaceholderConfigurer placeholderConfigurer = new PropertyPlaceholderConfigurer();
-//        placeholderConfigurer.setIgnoreResourceNotFound(true);
-//        placeholderConfigurer.setIgnoreUnresolvablePlaceholders(true);
-//        try {
-//            Properties properties = reloadablePropertiesFactoryBean.getObject();
-//            placeholderConfigurer.setProperties(properties);
-//        } catch (IOException e) {
-//            throw new RuntimeException("unable to find properties", e);
-//        }
-//        return placeholderConfigurer;
-//    }
+    @Override
+	public void setEnvironment(Environment environment) {
+		String env = environment.getProperty("DISCONF_ENV");
+		String host = environment.getProperty("DISCONF_HOST");
+		if(env!=null) {
+			 System.setProperty("disconf.env", env);
+		}
+		if(host!=null) {
+			System.setProperty("disconf.conf_server_host", host);
+		}
+	}
 
 
     
